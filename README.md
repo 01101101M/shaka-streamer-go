@@ -1,1 +1,1 @@
-# 01101101M-shaka-streamer-go
+# shaka-streamer-go
