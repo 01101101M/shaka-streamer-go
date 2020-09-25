@@ -1,0 +1,1 @@
+`go env GOPATH`/bin/CompileDaemon  -log-prefix=false -build="go build" -command="./shaka-streamer -i ./configs/config_files/input_vod_config.yaml -p ./configs/config_files/pipeline_vod_config.yaml -b ./configs/config_files/bitrate_config.yaml"
