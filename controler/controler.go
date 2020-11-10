@@ -15,7 +15,7 @@ type Args struct {
 	SkipDepsCheck bool   `short:"s" long:"skip_deps_check" description:"Skip checks for dependencies and their versions.  This can be useful for testing pre-release versions of FFmpeg or Shaka Packager."`
 }
 
-func Process(args Args) (err error) {
+func (args Args) Process() (err error) {
 
 	if !args.SkipDepsCheck {
 		// Check that ffmpeg version is 4.1 or above.
@@ -39,11 +39,43 @@ func Process(args Args) (err error) {
 	}
 
 	// Define resolutions and bitrates before parsing other configs.
-
 	bitrateConfig := configs.BitrateConfigUnmarshal(args.BitrateConfig)
 	fmt.Println(bitrateConfig, err)
 	if err != nil {
 		fmt.Println(err)
+	}
+
+	inputConfig, err := configs.InputConfigUnmarshal(args.InputConfig)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	pipelineConfig, err := configs.PipelineConfigUnmarshal(args.PipelineConfig)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	_ = pipelineConfig
+
+	for _, input := range inputConfig.Inputs {
+		switch input.MediaType {
+		case "video":
+			for _, videoCodec := range pipelineConfig.VideoCodecs {
+				for _, outputResolution := range pipelineConfig.GetResolutions() {
+					_ = videoCodec
+					videoRes := bitrateConfig.VideoResolutions[outputResolution]
+					fmt.Println(input.GetResolution(), videoRes)
+				}
+			}
+		case "audio":
+			for _, audioCodec := range pipelineConfig.AudioCodecs {
+				// path, err := internal.CreatePipe("")
+				_ = audioCodec
+				// fmt.Println(path, err, audioCodec)
+			}
+		default:
+			// fmt.Println("Nai: ", input)
+		}
 	}
 
 	return nil

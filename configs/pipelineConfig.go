@@ -36,6 +36,10 @@ type PipelineConfig struct {
 	} `yaml:"encryption"`
 }
 
+func (pc PipelineConfig) GetResolutions() []string {
+	return pc.Resolutions
+}
+
 func PipelineConfigUnmarshal(path string) (ic PipelineConfig, err error) {
 	pipelineyml, err := ioutil.ReadFile(path)
 	if err != nil {
