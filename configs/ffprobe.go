@@ -74,3 +74,20 @@ func (in Input) FrameRate() (frameRate float32) {
 
 	return
 }
+
+func (in Input) VideResolution() (resolution string) {
+	frameRateString, err := in.ffprobe("stream=width,height")
+	if err != nil {
+		return
+	}
+	fraction := strings.Split(frameRateString, "|")
+	w, _ := strconv.ParseInt(fraction[0], 10, 32)
+	h, _ := strconv.ParseInt(fraction[1], 10, 32)
+	for k, res := range Bitrates.VideoResolutions {
+		if int(w) <= res.MaxWidth && int(h) <= res.MaxHeight &&
+			in.Resolution.FrameRate <= res.MaxFrameRate {
+			return k
+		}
+	}
+	return
+}

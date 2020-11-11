@@ -6,6 +6,10 @@ import (
 	"github.com/goccy/go-yaml"
 )
 
+var (
+	Bitrates BitrateConfig
+)
+
 type AudioChannelLayout struct {
 	MaxChannels int               `yaml:"max_channels"`
 	Bitrates    map[string]string `yaml:"bitrates"`
@@ -14,7 +18,7 @@ type AudioChannelLayout struct {
 type VideoResolution struct {
 	MaxWidth     int               `yaml:"max_width"`
 	MaxHeight    int               `yaml:"max_height"`
-	MaxFrameRate float64           `yaml:"max_frame_rate"`
+	MaxFrameRate float32           `yaml:"max_frame_rate"`
 	Bitrates     map[string]string `yaml:"bitrates"`
 }
 

@@ -39,8 +39,8 @@ func (args Args) Process() (err error) {
 	}
 
 	// Define resolutions and bitrates before parsing other configs.
-	bitrateConfig := configs.BitrateConfigUnmarshal(args.BitrateConfig)
-	fmt.Println(bitrateConfig, err)
+	configs.Bitrates = configs.BitrateConfigUnmarshal(args.BitrateConfig)
+	fmt.Println(configs.Bitrates, err)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -63,7 +63,7 @@ func (args Args) Process() (err error) {
 			for _, videoCodec := range pipelineConfig.VideoCodecs {
 				for _, outputResolution := range pipelineConfig.GetResolutions() {
 					_ = videoCodec
-					videoRes := bitrateConfig.VideoResolutions[outputResolution]
+					videoRes := configs.Bitrates.VideoResolutions[outputResolution]
 					fmt.Println(input.GetResolution(), videoRes)
 				}
 			}

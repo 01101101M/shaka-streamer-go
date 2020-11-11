@@ -30,6 +30,7 @@ func (in Input) prob() {
 	}
 	in.Resolution.IsInterlaced = in.IsInterlaced()
 	in.Resolution.FrameRate = in.FrameRate()
+	in.Resolution.Resolution = in.VideResolution()
 	fmt.Println("prob", in)
 }
 
